@@ -3,6 +3,8 @@
 Sphere::Sphere()
 {
     R = 1;
+
+    n = 1;
 }
 
 Sphere::~Sphere()

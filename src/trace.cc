@@ -7,6 +7,10 @@ Trace::Trace()
     det = new TH2F("det", "Detector", 100, -10., 10., 100, -10., 10.);
 
     rand = new TRandom2();
+
+    physics = new Physics();
+
+    n_world = 1.; //World refractive index
 }
 
 bool Trace::Processing()
@@ -15,7 +19,7 @@ bool Trace::Processing()
     sp->SetPosition(0., 0., 10.);
     sp->SetRadius(2.);
 
-    TVector3 r, p;
+    TVector3 r, p, n;
 
     for(int i = 0; i < 1000000; i++)
     {
@@ -30,6 +34,20 @@ bool Trace::Processing()
         double lambda = sp->GetLambda(r, p);
 
         std::cout << "Lambda: " << lambda << std::endl;
+
+        r  = lambda*p + r; //Propagate ray to object
+
+        n = sp->GetNormal(r); //Get normal vector of object
+
+        //Calculate refraction
+        if(p.Dot(n) > 0)
+        {
+            p = physics->Refraction(p, n, n_world, sp->GetRefIndex());
+        }
+        else
+        {
+            p = physics->Refraction(p, -n, sp->GetRefIndex(), n_world);
+        }
     }
 
     return true;

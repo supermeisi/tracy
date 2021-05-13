@@ -8,6 +8,7 @@
 #include "TRandom2.h"
 
 #include "sphere.hh"
+#include "physics.hh"
 
 class Trace
 {
@@ -25,6 +26,10 @@ private:
     TH2F *det;
 
     TRandom2 *rand;
+
+    Physics *physics;
+
+    double n_world;
 };
 
 #endif //TRACE_HH
