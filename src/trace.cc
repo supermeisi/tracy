@@ -15,17 +15,22 @@ Trace::Trace()
     sp->SetRadius(1.);
 
     det = new Detector();
-    det->SetPosition(0., 0., 4.);
+    det->SetPosition(0., 0., 4.2);
+
+    verbose = false;
 }
 
 bool Trace::Processing()
 {
     TVector3 r, p, n;
 
-    for(int i = 0; i < 10000; i++)
+    for(int i = 0; i < 1000000; i++)
     {
-        r.SetX(-0.5+rand->Rndm()*1.);
-        r.SetY(-0.5+rand->Rndm()*1.);
+        double r0 = 0.5*sqrt(rand->Rndm());
+        double theta0 = 2*TMath::Pi()*rand->Rndm();
+
+        r.SetX(r0*cos(theta0));
+        r.SetY(r0*sin(theta0));
         r.SetZ(0.);
 
         p.SetX(0.);
@@ -36,7 +41,8 @@ bool Trace::Processing()
         {
             double lambda = sp->GetLambda(r, p);
 
-            std::cout << "Lambda: " << lambda << std::endl;
+            if(verbose)
+                std::cout << "Lambda: " << lambda << std::endl;
 
             r  = lambda*p + r; //Propagate ray to object
 
@@ -55,11 +61,13 @@ bool Trace::Processing()
 
         double lambda = det->GetLambda(r, p);
 
-        std::cout << "Lambda: " << lambda << std::endl;
-
         r  = lambda*p + r;
 
-        std::cout << r.X() << " " << r.Y() << " " << r.Z() << std::endl;
+        if(verbose)
+        {
+            std::cout << "Lambda: " << lambda << std::endl;
+            std::cout << r.X() << " " << r.Y() << " " << r.Z() << std::endl;
+        }
 
         det->Hit(r.X(), r.Y());
     }

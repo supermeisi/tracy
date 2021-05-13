@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 
     Trace *trace = new Trace();
     
-    trace->SetNCores(1);
+    trace->SetNCores(8);
     trace->Run();
 
     delete trace;

@@ -32,6 +32,8 @@ private:
 
     Sphere *sp;
     Detector *det;
+
+    bool verbose;
 };
 
 #endif //TRACE_HH
