@@ -4,6 +4,7 @@
 #include <iostream>
 #include <thread>
 
+#include "TH2F.h"
 #include "TRandom2.h"
 
 #include "sphere.hh"
@@ -20,6 +21,10 @@ public:
 private:
     int n_cores;
     std::thread th[100];
+
+    TH2F *det;
+
+    TRandom2 *rand;
 };
 
 #endif //TRACE_HH

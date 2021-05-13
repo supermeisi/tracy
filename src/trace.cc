@@ -3,6 +3,10 @@
 Trace::Trace()
 {
     n_cores = 1;
+
+    det = new TH2F("det", "Detector", 100, -10., 10., 100, -10., 10.);
+
+    rand = new TRandom2();
 }
 
 bool Trace::Processing()
@@ -11,13 +15,11 @@ bool Trace::Processing()
     sp->SetPosition(0., 0., 10.);
     sp->SetRadius(2.);
 
-    TRandom2 *rand = new TRandom2();
-
     TVector3 r, p;
 
     for(int i = 0; i < 1000000; i++)
     {
-        r.SetX(-0.5+rand->Rndm()*1);
+        r.SetX(-0.5+rand->Rndm()*1.);
         r.SetY(-0.5+rand->Rndm()*1.);
         r.SetZ(0.);
 
