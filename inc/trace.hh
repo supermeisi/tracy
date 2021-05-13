@@ -9,6 +9,7 @@
 
 #include "sphere.hh"
 #include "physics.hh"
+#include "detector.hh"
 
 class Trace
 {
@@ -23,13 +24,14 @@ private:
     int n_cores;
     std::thread th[100];
 
-    TH2F *det;
-
     TRandom2 *rand;
 
     Physics *physics;
 
     double n_world;
+
+    Sphere *sp;
+    Detector *det;
 };
 
 #endif //TRACE_HH

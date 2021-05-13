@@ -4,24 +4,25 @@ Trace::Trace()
 {
     n_cores = 1;
 
-    det = new TH2F("det", "Detector", 100, -10., 10., 100, -10., 10.);
-
     rand = new TRandom2();
 
     physics = new Physics();
 
     n_world = 1.; //World refractive index
+
+    sp = new Sphere();
+    sp->SetPosition(0., 0., 3.);
+    sp->SetRadius(1.);
+
+    det = new Detector();
+    det->SetPosition(0., 0., 4.);
 }
 
 bool Trace::Processing()
 {
-    Sphere *sp = new Sphere();
-    sp->SetPosition(0., 0., 10.);
-    sp->SetRadius(2.);
-
     TVector3 r, p, n;
 
-    for(int i = 0; i < 1000000; i++)
+    for(int i = 0; i < 10000; i++)
     {
         r.SetX(-0.5+rand->Rndm()*1.);
         r.SetY(-0.5+rand->Rndm()*1.);
@@ -31,23 +32,36 @@ bool Trace::Processing()
         p.SetY(0.);
         p.SetZ(1.);
 
-        double lambda = sp->GetLambda(r, p);
+        for(int j = 0; j < 2; j++)
+        {
+            double lambda = sp->GetLambda(r, p);
+
+            std::cout << "Lambda: " << lambda << std::endl;
+
+            r  = lambda*p + r; //Propagate ray to object
+
+            n = sp->GetNormal(r); //Get normal vector of object
+
+            //Calculate refraction
+            if(p.Dot(n) > 0)
+            {
+                p = physics->Refraction(p, n, n_world, sp->GetRefIndex());
+            }
+            else
+            {
+                p = physics->Refraction(p, -n, sp->GetRefIndex(), n_world);
+            }
+        }
+
+        double lambda = det->GetLambda(r, p);
 
         std::cout << "Lambda: " << lambda << std::endl;
 
-        r  = lambda*p + r; //Propagate ray to object
+        r  = lambda*p + r;
 
-        n = sp->GetNormal(r); //Get normal vector of object
+        std::cout << r.X() << " " << r.Y() << " " << r.Z() << std::endl;
 
-        //Calculate refraction
-        if(p.Dot(n) > 0)
-        {
-            p = physics->Refraction(p, n, n_world, sp->GetRefIndex());
-        }
-        else
-        {
-            p = physics->Refraction(p, -n, sp->GetRefIndex(), n_world);
-        }
+        det->Hit(r.X(), r.Y());
     }
 
     return true;
@@ -68,6 +82,8 @@ bool Trace::Run()
     }
 
     std::cout << "End tracing..." << std::endl;
+
+    det->Display();
 
     return true;
 }
