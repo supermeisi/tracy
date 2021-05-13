@@ -3,6 +3,10 @@
 
 #include <iostream>
 
+#include "TRandom2.h"
+
+#include "sphere.hh"
+
 class Trace
 {
 public:
