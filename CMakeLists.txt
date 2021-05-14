@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 project(tracy)
 
 find_package(ROOT REQUIRED)
+find_package(ROOT COMPONENTS Core Geom GeomPainter TreePlayer MathCore MathMore Gui REQUIRED)
 
 include(${ROOT_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/inc ${FLT_INCLUDE_DIRS} ${ROOT_INCLUDE_DIRS})

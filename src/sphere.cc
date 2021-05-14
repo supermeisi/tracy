@@ -46,3 +46,16 @@ TVector3 Sphere::GetNormal(TVector3 _r)
     
     return n;
 }
+
+void Sphere::Draw(TGeoManager &_man, TGeoVolume &_top)
+{
+    TGeoVolume *sphere = _man.MakeSphere("SPHERE",NULL,0,R);
+
+    TGeoHMatrix *trans_rot = new TGeoHMatrix("TRANSROT");
+
+    trans_rot->SetDx(xm);
+    trans_rot->SetDy(ym);
+    trans_rot->SetDz(zm);
+
+    _top.AddNode(sphere, 0, trans_rot);
+}

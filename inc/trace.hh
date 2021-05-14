@@ -6,6 +6,8 @@
 
 #include "TH2F.h"
 #include "TRandom2.h"
+#include "TView.h"
+#include "TGeoTrack.h"
 
 #include "sphere.hh"
 #include "physics.hh"
@@ -34,6 +36,11 @@ private:
     Detector *det;
 
     bool verbose;
+
+    TCanvas *c1;
+    TView *view;
+    TGeoManager *man;
+    TGeoVolume *top;
 };
 
 #endif //TRACE_HH

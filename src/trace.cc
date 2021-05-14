@@ -15,16 +15,25 @@ Trace::Trace()
     sp->SetRadius(1.);
 
     det = new Detector();
-    det->SetPosition(0., 0., 4.2);
+    det->SetPosition(0., 0., 4.5);
 
     verbose = false;
+
+    c1 = new TCanvas("c1", "c1", 500, 500);
+
+    view = TView::CreateView(1);
+    view->SetRange(-10.,-10.,-1.,300.,300.,300.);
+
+    man = new TGeoManager();
+    top = gGeoManager->MakeBox("TOP",NULL,10,10,10);
+    man->SetTopVolume(top);
 }
 
 bool Trace::Processing()
 {
     TVector3 r, p, n;
 
-    for(int i = 0; i < 1000000; i++)
+    for(int i = 0; i < 10; i++)
     {
         double r0 = 0.5*sqrt(rand->Rndm());
         double theta0 = 2*TMath::Pi()*rand->Rndm();
@@ -36,6 +45,11 @@ bool Trace::Processing()
         p.SetX(0.);
         p.SetY(0.);
         p.SetZ(1.);
+
+        TGeoTrack *track = new TGeoTrack();
+        track->SetLineColor(kRed);
+
+        track->AddPoint(r.X(), r.Y(), r.Z(), 0);
 
         for(int j = 0; j < 2; j++)
         {
@@ -57,6 +71,8 @@ bool Trace::Processing()
             {
                 p = physics->Refraction(p, -n, sp->GetRefIndex(), n_world);
             }
+
+            track->AddPoint(r.X(), r.Y(), r.Z(), j+1);
         }
 
         double lambda = det->GetLambda(r, p);
@@ -70,6 +86,10 @@ bool Trace::Processing()
         }
 
         det->Hit(r.X(), r.Y());
+
+        track->AddPoint(r.X(), r.Y(), r.Z(), 3);
+
+        track->Draw();
     }
 
     return true;
@@ -78,6 +98,10 @@ bool Trace::Processing()
 bool Trace::Run()
 {
     std::cout << "Start tracing..." << std::endl;
+
+    top->Draw();
+
+    sp->Draw(*man, *top);
 
     for(int i = 0; i < n_cores; i++)
     {

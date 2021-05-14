@@ -2,6 +2,9 @@
 #define SPHERE_HH
 
 #include "TVector3.h"
+#include "TGeoManager.h"
+#include "TGeoVolume.h"
+#include "TGeoManager.h"
 
 class Sphere
 {
@@ -15,6 +18,7 @@ public:
     void Draw();
     void SetPosition(double _xm, double _ym, double _zm) { xm = _xm; ym = _ym; zm = _zm; rm = TVector3(_xm, _ym, _zm);}
     double GetRefIndex() { return n; }
+    void Draw(TGeoManager &_man, TGeoVolume &_top);
 
 private:
     double R;
