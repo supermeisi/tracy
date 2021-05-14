@@ -33,8 +33,26 @@ bool Trace::Processing()
 {
     TVector3 r, p, n;
 
-    for(int i = 0; i < 10000000; i++)
+    int n_rays = 100000;
+    int n_draw = 10;
+    int modulo = n_rays/n_draw;
+
+    std::vector<TGeoTrack*> track;
+
+    if(verbose)
+        std::cout << "Modulo: " << std::endl;
+
+    for(int i = 0; i < n_rays; i++)
     {
+        bool draw = false;
+
+        if(i%modulo == 0)
+        {
+            draw = true;
+            track.push_back(new TGeoTrack());
+            track[track.size()-1]->SetLineColor(kRed);
+        }
+
         double r0 = 0.5*sqrt(rand->Rndm());
         double theta0 = 2*TMath::Pi()*rand->Rndm();
 
@@ -45,6 +63,8 @@ bool Trace::Processing()
         p.SetX(0.);
         p.SetY(0.);
         p.SetZ(1.);
+
+        if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), 0);
 
         for(int j = 0; j < 2; j++)
         {
@@ -67,6 +87,7 @@ bool Trace::Processing()
                 p = physics->Refraction(p, -n, sp->GetRefIndex(), n_world);
             }
 
+            if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), j+1);
         }
 
         double lambda = det->GetLambda(r, p);
@@ -81,6 +102,11 @@ bool Trace::Processing()
 
         det->Hit(r.X(), r.Y());
 
+        if(draw)
+        {
+            track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), 3);
+            track[track.size()-1]->Draw();
+        }
     }
 
     return true;

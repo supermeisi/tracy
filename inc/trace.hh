@@ -12,6 +12,7 @@
 #include "sphere.hh"
 #include "physics.hh"
 #include "detector.hh"
+#include "ray.hh"
 
 class Trace
 {

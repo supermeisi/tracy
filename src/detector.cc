@@ -2,7 +2,7 @@
 
 Detector::Detector()
 {
-    det = new TH2F("det", "Detector", 512, -1, 1, 512, -1, 1);
+    det = new TH2F("det", "Detector", 512, -0.05, 0.05, 512, -0.05, 0.05);
 
     n = TVector3(0., 0., 1.);
 }
@@ -32,6 +32,7 @@ double Detector::GetLambda(TVector3 _r, TVector3 _p)
 
 void Detector::Display()
 {
+    gStyle->SetPalette(kRainBow);
     TCanvas *c = new TCanvas("c", "c", 500, 500);
     det->Draw("col");
 }

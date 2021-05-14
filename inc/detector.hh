@@ -4,6 +4,7 @@
 #include "TCanvas.h"
 #include "TVector3.h"
 #include "TH2F.h"
+#include "TStyle.h"
 
 class Detector
 {
