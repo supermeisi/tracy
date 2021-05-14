@@ -33,7 +33,7 @@ bool Trace::Processing()
 {
     TVector3 r, p, n;
 
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 10000; i++)
     {
         double r0 = 0.5*sqrt(rand->Rndm());
         double theta0 = 2*TMath::Pi()*rand->Rndm();
@@ -49,7 +49,7 @@ bool Trace::Processing()
         TGeoTrack *track = new TGeoTrack();
         track->SetLineColor(kRed);
 
-        track->AddPoint(r.X(), r.Y(), r.Z(), 0);
+        if(i%1000 == 0) track->AddPoint(r.X(), r.Y(), r.Z(), 0);
 
         for(int j = 0; j < 2; j++)
         {
@@ -89,7 +89,7 @@ bool Trace::Processing()
 
         track->AddPoint(r.X(), r.Y(), r.Z(), 3);
 
-        track->Draw();
+        if(i%10000 == 0) track->Draw();
     }
 
     return true;
