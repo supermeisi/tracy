@@ -33,7 +33,7 @@ bool Trace::Processing()
 {
     TVector3 r, p, n;
 
-    for(int i = 0; i < 10000; i++)
+    for(int i = 0; i < 10000000; i++)
     {
         double r0 = 0.5*sqrt(rand->Rndm());
         double theta0 = 2*TMath::Pi()*rand->Rndm();
@@ -45,11 +45,6 @@ bool Trace::Processing()
         p.SetX(0.);
         p.SetY(0.);
         p.SetZ(1.);
-
-        TGeoTrack *track = new TGeoTrack();
-        track->SetLineColor(kRed);
-
-        if(i%1000 == 0) track->AddPoint(r.X(), r.Y(), r.Z(), 0);
 
         for(int j = 0; j < 2; j++)
         {
@@ -72,7 +67,6 @@ bool Trace::Processing()
                 p = physics->Refraction(p, -n, sp->GetRefIndex(), n_world);
             }
 
-            track->AddPoint(r.X(), r.Y(), r.Z(), j+1);
         }
 
         double lambda = det->GetLambda(r, p);
@@ -87,9 +81,6 @@ bool Trace::Processing()
 
         det->Hit(r.X(), r.Y());
 
-        track->AddPoint(r.X(), r.Y(), r.Z(), 3);
-
-        if(i%10000 == 0) track->Draw();
     }
 
     return true;
