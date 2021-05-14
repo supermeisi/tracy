@@ -5,18 +5,18 @@
 
 class Vertex
 {
-    public:
-        Vertex();
-        ~Vertex();
+public:
+    Vertex();
+    ~Vertex();
 
-        void SetPosition(TVector3 _r) { r = _r; }
-        void SetDirection(TVector3 _p) { p = _p; }
+    void SetPosition(TVector3 _r) { r = _r; }
+    void SetDirection(TVector3 _p) { p = _p; }
 
-        TVector3 GetPosition() { return r; }
-        TVector3 GetDirection() { return p; }
+    TVector3 GetPosition() { return r; }
+    TVector3 GetDirection() { return p; }
 
-    protected:
-        TVector3 r, p;
+protected:
+    TVector3 r, p;
 };
 
 #endif // VERTEX_HH

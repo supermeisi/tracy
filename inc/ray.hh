@@ -10,24 +10,24 @@
 
 class Ray
 {
-    public:
-        Ray();
-        ~Ray();
-        
-        void AddVertex(Vertex *_vtx) { vtx.push_back(_vtx); }
-        void SetWavelength(Double_t _wlen) { wlen = _wlen; }
-        void Draw();
-        void Print();
-        
-        Vertex *GetVertex(Int_t i) { return vtx[i]; }
+public:
+    Ray();
+    ~Ray();
 
-        Double_t GetWavelength() { return wlen; }
+    void AddVertex(Vertex *_vtx) { vtx.push_back(_vtx); }
+    void SetWavelength(Double_t _wlen) { wlen = _wlen; }
+    void Draw();
+    void Print();
 
-        Int_t GetN() { return vtx.size(); }
-    
-    private:
-        std::vector<Vertex*> vtx;
-        Double_t wlen;
+    Vertex *GetVertex(Int_t i) { return vtx[i]; }
+
+    Double_t GetWavelength() { return wlen; }
+
+    Int_t GetN() { return vtx.size(); }
+
+private:
+    std::vector<Vertex*> vtx;
+    Double_t wlen;
 };
 
 #endif //RAY_HH
