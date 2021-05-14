@@ -33,7 +33,7 @@ bool Trace::Processing()
 {
     TVector3 r, p, n;
 
-    int n_rays = 100000;
+    int n_rays = 1000000;
     int n_draw = 10;
     int modulo = n_rays/n_draw;
 

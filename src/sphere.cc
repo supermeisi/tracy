@@ -4,7 +4,7 @@ Sphere::Sphere()
 {
     R = 1;
 
-    n = 1.47;
+    nref = 1.47;
 }
 
 Sphere::~Sphere()

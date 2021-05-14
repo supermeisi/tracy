@@ -6,7 +6,9 @@
 #include "TGeoVolume.h"
 #include "TGeoManager.h"
 
-class Sphere
+#include "object.hh"
+
+class Sphere : public Object
 {
 public:
     Sphere();
@@ -17,14 +19,10 @@ public:
     TVector3 GetNormal(TVector3 _r);
     void Draw();
     void SetPosition(double _xm, double _ym, double _zm) { xm = _xm; ym = _ym; zm = _zm; rm = TVector3(_xm, _ym, _zm);}
-    double GetRefIndex() { return n; }
     void Draw(TGeoManager &_man, TGeoVolume &_top);
 
 private:
     double R;
-    double xm, ym, zm;
-    TVector3 rm;
-    double n;
 };
 
 #endif //SPHERE_HH
