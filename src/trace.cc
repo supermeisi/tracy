@@ -40,7 +40,7 @@ bool Trace::Processing()
     std::vector<TGeoTrack*> track;
 
     if(verbose)
-        std::cout << "Modulo: " << std::endl;
+        std::cout << "Modulo: " << modulo << std::endl;
 
     for(int i = 0; i < n_rays; i++)
     {
@@ -64,7 +64,7 @@ bool Trace::Processing()
         p.SetY(0.);
         p.SetZ(1.);
 
-        if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), 0);
+        if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
 
         for(int j = 0; j < 2; j++)
         {
@@ -87,7 +87,7 @@ bool Trace::Processing()
                 p = physics->Refraction(p, -n, sp->GetRefIndex(), n_world);
             }
 
-            if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), j+1);
+            if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
         }
 
         double lambda = det->GetLambda(r, p);
@@ -104,7 +104,7 @@ bool Trace::Processing()
 
         if(draw)
         {
-            track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), 3);
+            track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
             track[track.size()-1]->Draw();
         }
     }
