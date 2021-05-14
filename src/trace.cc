@@ -4,15 +4,13 @@ Trace::Trace()
 {
     n_cores = 1;
 
+    lambda_min_init = 0.;
+
     rand = new TRandom2();
 
     physics = new Physics();
 
     n_world = 1.; //World refractive index
-
-    sp = new Sphere();
-    sp->SetPosition(0., 0., 3.);
-    sp->SetRadius(1.);
 
     det = new Detector();
     det->SetPosition(0., 0., 4.5);
@@ -29,11 +27,44 @@ Trace::Trace()
     man->SetTopVolume(top);
 }
 
+int Trace::GetMinimum(const TVector3 &r, const TVector3 &p)
+{
+    int id = 0;
+
+    double lambda_min = 0.;
+
+    //Find initial value
+    for(int k = 0; k < objarr.size(); k++)
+    {
+        if(objarr[k]->GetLambda(r, p) > 1e-12)
+        {
+            lambda_min = objarr[k]->GetLambda(r, p);
+            break;
+        }
+    }
+
+    if(lambda_min == lambda_min_init) return 0;
+
+    //Find minimum lambda value
+    for(int k = 0; k < objarr.size(); k++)
+    {
+        double lambda = objarr[k]->GetLambda(r, p);
+
+        if(lambda < lambda_min && lambda > 1e-12)
+        {
+            lambda_min = lambda;
+            id = k;
+        }
+    }
+
+    return id;
+}
+
 bool Trace::Processing()
 {
     TVector3 r, p, n;
 
-    int n_rays = 1000000;
+    int n_rays = 100000;
     int n_draw = 10;
     int modulo = n_rays/n_draw;
 
@@ -66,25 +97,32 @@ bool Trace::Processing()
 
         if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
 
-        for(int j = 0; j < 2; j++)
+        //Maximum number of intersections
+        for(int j = 0; j < 10; j++)
         {
-            double lambda = sp->GetLambda(r, p);
+            //Finding minimum line parameter
+            int id = GetMinimum(r, p);
+            double lambda_min = objarr[id]->GetLambda(r, p);
+
+            //Check if lambda is a real number
+            if(lambda_min != lambda_min)
+                break;
 
             if(verbose)
-                std::cout << "Lambda: " << lambda << std::endl;
+                std::cout << "Lambda: " << lambda_min << std::endl;
 
-            r  = lambda*p + r; //Propagate ray to object
+            r  = lambda_min*p + r; //Propagate ray to object
 
-            n = sp->GetNormal(r); //Get normal vector of object
+            n = objarr[id]->GetNormal(r); //Get normal vector of object
 
             //Calculate refraction
             if(p.Dot(n) > 0)
             {
-                p = physics->Refraction(p, n, n_world, sp->GetRefIndex());
+                p = physics->Refraction(p, n, n_world, objarr[id]->GetRefIndex());
             }
             else
             {
-                p = physics->Refraction(p, -n, sp->GetRefIndex(), n_world);
+                p = physics->Refraction(p, -n, objarr[id]->GetRefIndex(), n_world);
             }
 
             if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
@@ -118,7 +156,10 @@ bool Trace::Run()
 
     top->Draw();
 
-    sp->Draw(*man, *top);
+    for(int i = 0; i < objarr.size(); i++)
+    {
+        objarr[i]->Draw(*man, *top);
+    }
 
     for(int i = 0; i < n_cores; i++)
     {

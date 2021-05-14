@@ -11,6 +11,13 @@ int main(int argc, char** argv)
     Trace *trace = new Trace();
     
     trace->SetNCores(4);
+
+    Sphere *sp = new Sphere();
+    sp->SetPosition(0., 0., 3.);
+    sp->SetRadius(1.);
+
+    trace->AddObject(sp);
+
     trace->Run();
 
     delete trace;
