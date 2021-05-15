@@ -12,7 +12,7 @@ Trace::Trace()
 
     n_world = 1.; //World refractive index
 
-    verbose = true;
+    verbose = false;
 
     c1 = new TCanvas("c1", "c1", 500, 500);
 
@@ -26,7 +26,7 @@ Trace::Trace()
 
 int Trace::GetMinimum(const TVector3 &r, const TVector3 &p)
 {
-    int id = 0;
+    int id = -1;
 
     double lambda_min = 0.;
 
@@ -36,6 +36,7 @@ int Trace::GetMinimum(const TVector3 &r, const TVector3 &p)
         if(objarr[k]->GetLambda(r, p) > 1e-12)
         {
             lambda_min = objarr[k]->GetLambda(r, p);
+            id = k;
             break;
         }
     }
@@ -94,23 +95,34 @@ bool Trace::Processing()
 
         if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
 
+        if(verbose)
+            std::cout << "Ray ID: " << i << std::endl;
+
         //Maximum number of intersections per light ray
         for(int j = 0; j < 10; j++)
         {
             //Finding minimum line parameter
             int id = GetMinimum(r, p);
+
+            //Kill rays that do not hit any object
+            if(id < 0)
+            {
+                std::cout << "Ray finished..." << std::endl;
+                break;
+            }
+
             double lambda_min = objarr[id]->GetLambda(r, p);
 
             if(verbose)
-                 std::cout << "Ray ID: " << i << std::endl;
+                std::cout << "Object ID: " << id << std::endl;
 
             //Check if lambda is a real number
-            if(lambda_min != lambda_min || lambda_min < 0)
+            /*if(lambda_min != lambda_min || lambda_min < 0)
             {
                 if(verbose)
                     std::cerr << "Unphysical parameter" << std::endl;
                 continue;
-            }
+            }*/
 
             if(verbose)
                 std::cout << "Lambda: " << lambda_min << std::endl;
@@ -135,6 +147,7 @@ bool Trace::Processing()
             {
                 if(verbose) std::cout << "Ray killed..." << std::endl;
                 if(objarr[id]->IsDetector()) objarr[id]->Hit(r.X(), r.Y());
+                if(draw) track[track.size()-1]->Draw();
                 break;
             }
         }

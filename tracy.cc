@@ -17,7 +17,7 @@ int main(int argc, char** argv)
     sp->SetRadius(1.);
 
     Detector *det = new Detector();
-    det->SetPosition(0., 0., 4.5);
+    det->SetPosition(0., 0., 5);
 
     trace->AddObject(sp);
     trace->AddObject(det);
