@@ -14,10 +14,11 @@ class Object
         void SetKillTrack(bool _kill) { kill = _kill; }
         void SetRefIndex(double _nref) { nref = _nref; }
         void SetName(TString _name) { name = _name; }
-
+        bool IsDetector() { return detector; }
         bool GetKillTrack() { return kill; }
-
         double GetRefIndex() { return nref; }
+        virtual void Hit(double _x, double _y) {}
+        virtual void Display() {}
 
         virtual double GetLambda(TVector3 _r, TVector3 _p) = 0;
         virtual TVector3 GetNormal(TVector3 _r) = 0;
@@ -29,6 +30,7 @@ class Object
         bool kill;
         double nref;
         TString name;
+        bool detector;
 };
 
 #endif // OBJECT_HH

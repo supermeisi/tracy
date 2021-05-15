@@ -5,6 +5,9 @@ Sphere::Sphere()
     R = 1;
 
     nref = 1.47;
+
+    detector = false;
+    kill = false;
 }
 
 Sphere::~Sphere()

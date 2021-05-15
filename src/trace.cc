@@ -12,7 +12,7 @@ Trace::Trace()
 
     n_world = 1.; //World refractive index
 
-    verbose = true;
+    verbose = false;
 
     c1 = new TCanvas("c1", "c1", 500, 500);
 
@@ -61,7 +61,7 @@ bool Trace::Processing()
 {
     TVector3 r, p, n;
 
-    int n_rays = 100000;
+    int n_rays = 10000;
     int n_draw = 10;
     int modulo = n_rays/n_draw;
 
@@ -103,7 +103,10 @@ bool Trace::Processing()
 
             //Check if lambda is a real number
             if(lambda_min != lambda_min)
+            {
+                if(verbose) std::cerr << "Unphysical ray" << std::endl;
                 break;
+            }
 
             if(verbose)
                 std::cout << "Lambda: " << lambda_min << std::endl;
@@ -125,7 +128,11 @@ bool Trace::Processing()
             if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
 
             if(objarr[id]->GetKillTrack())
+            {
+                if(verbose) std::cout << "Ray killed..." << std::endl;
+                if(objarr[id]->IsDetector()) objarr[id]->Hit(r.X(), r.Y());
                 break;
+            }
         }
     }
 
@@ -155,7 +162,10 @@ bool Trace::Run()
 
     std::cout << "End tracing..." << std::endl;
 
-    //det->Display();
+    for(int i = 0; i < objarr.size(); i++)
+    {
+        if(objarr[i]->IsDetector()) objarr[i]->Display();
+    }
 
     return true;
 }

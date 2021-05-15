@@ -4,6 +4,9 @@ Detector::Detector()
 {
     det = new TH2F("det", "Detector", 3000, -0.05, 0.05, 3000, -0.05, 0.05);
 
+    detector = true;
+    kill = true;
+
     n = TVector3(0., 0., 1.);
 }
 
