@@ -13,11 +13,11 @@ int main(int argc, char** argv)
     trace->SetNCores(1);
 
     Sphere *sp = new Sphere();
-    sp->SetPosition(0., 0., 3.);
+    sp->SetPosition(0.2, 0., 6.);
     sp->SetRadius(1.);
 
     Sphere *sp2 = new Sphere();
-    sp2->SetPosition(0., 0., 6.);
+    sp2->SetPosition(0.1, 0., 3.);
     sp2->SetRadius(1.);
 
     Detector *det = new Detector();
