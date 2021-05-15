@@ -12,7 +12,7 @@ Trace::Trace()
 
     n_world = 1.; //World refractive index
 
-    verbose = false;
+    verbose = true;
 
     c1 = new TCanvas("c1", "c1", 500, 500);
 
@@ -94,18 +94,22 @@ bool Trace::Processing()
 
         if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
 
-        //Maximum number of intersections
+        //Maximum number of intersections per light ray
         for(int j = 0; j < 10; j++)
         {
             //Finding minimum line parameter
             int id = GetMinimum(r, p);
             double lambda_min = objarr[id]->GetLambda(r, p);
 
+            if(verbose)
+                 std::cout << "Ray ID: " << i << std::endl;
+
             //Check if lambda is a real number
-            if(lambda_min != lambda_min)
+            if(lambda_min != lambda_min || lambda_min < 0)
             {
-                if(verbose) std::cerr << "Unphysical ray" << std::endl;
-                break;
+                if(verbose)
+                    std::cerr << "Unphysical parameter" << std::endl;
+                continue;
             }
 
             if(verbose)
