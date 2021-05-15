@@ -12,9 +12,6 @@ Trace::Trace()
 
     n_world = 1.; //World refractive index
 
-    det = new Detector();
-    det->SetPosition(0., 0., 4.5);
-
     verbose = false;
 
     c1 = new TCanvas("c1", "c1", 500, 500);
@@ -127,24 +124,6 @@ bool Trace::Processing()
 
             if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
         }
-
-        double lambda = det->GetLambda(r, p);
-
-        r  = lambda*p + r;
-
-        if(verbose)
-        {
-            std::cout << "Lambda: " << lambda << std::endl;
-            std::cout << r.X() << " " << r.Y() << " " << r.Z() << std::endl;
-        }
-
-        det->Hit(r.X(), r.Y());
-
-        if(draw)
-        {
-            track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
-            track[track.size()-1]->Draw();
-        }
     }
 
     return true;
@@ -173,7 +152,7 @@ bool Trace::Run()
 
     std::cout << "End tracing..." << std::endl;
 
-    det->Display();
+    //det->Display();
 
     return true;
 }

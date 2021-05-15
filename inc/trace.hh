@@ -33,7 +33,6 @@ private:
     std::thread th[100];
     TRandom2 *rand;
     Physics *physics;
-    Detector *det;
     TCanvas *c1;
     TView *view;
     TGeoManager *man;

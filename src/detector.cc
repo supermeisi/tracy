@@ -2,7 +2,7 @@
 
 Detector::Detector()
 {
-    det = new TH2F("det", "Detector", 512, -0.05, 0.05, 512, -0.05, 0.05);
+    det = new TH2F("det", "Detector", 3000, -0.05, 0.05, 3000, -0.05, 0.05);
 
     n = TVector3(0., 0., 1.);
 }
