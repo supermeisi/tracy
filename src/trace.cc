@@ -114,18 +114,10 @@ bool Trace::Processing()
             double lambda_min = objarr[id]->GetLambda(r, p);
 
             if(verbose)
-                std::cout << "Object ID: " << id << std::endl;
-
-            //Check if lambda is a real number
-            /*if(lambda_min != lambda_min || lambda_min < 0)
             {
-                if(verbose)
-                    std::cerr << "Unphysical parameter" << std::endl;
-                continue;
-            }*/
-
-            if(verbose)
+                std::cout << "Object ID: " << id << std::endl;
                 std::cout << "Lambda: " << lambda_min << std::endl;
+            }
 
             r  = lambda_min*p + r; //Propagate ray to object
 

@@ -16,10 +16,15 @@ int main(int argc, char** argv)
     sp->SetPosition(0., 0., 3.);
     sp->SetRadius(1.);
 
+    Sphere *sp2 = new Sphere();
+    sp2->SetPosition(0., 0., 6.);
+    sp2->SetRadius(1.);
+
     Detector *det = new Detector();
-    det->SetPosition(0., 0., 5);
+    det->SetPosition(0., 0., 9.);
 
     trace->AddObject(sp);
+    trace->AddObject(sp2);
     trace->AddObject(det);
 
     trace->Run();
