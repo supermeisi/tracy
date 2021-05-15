@@ -2,7 +2,7 @@
 
 Detector::Detector()
 {
-    det = new TH2F("det", "Detector", 3000, -0.05, 0.05, 3000, -0.05, 0.05);
+    det = new TH2F("det", "Detector", 512, -1, 1, 512, -1, 1);
 
     detector = true;
     kill = true;
