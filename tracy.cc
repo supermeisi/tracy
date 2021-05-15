@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 #include "TApplication.h"
 
@@ -10,7 +12,26 @@ int main(int argc, char** argv)
 
     Trace *trace = new Trace();
     
-    trace->SetNCores(1);
+    std::ifstream is_file;
+    is_file.open("config.ini");
+
+    std::string line;
+
+    while(std::getline(is_file, line))
+    {
+        std::istringstream is_line(line);
+        std::string key;
+        if(std::getline(is_line, key, '='))
+        {
+            std::string value;
+            if( std::getline(is_line, value))
+            {
+                std::cout << key << " " << value << std::endl;
+                if(key == "threads") trace->SetNCores(stoi(value));
+                if(key == "verbose") trace->SetVerbose(stoi(value));
+            }
+        }
+    }
 
     Sphere *sp = new Sphere();
     sp->SetPosition(0.2, 0., 6.);

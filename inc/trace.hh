@@ -23,6 +23,7 @@ public:
     bool Processing();
     bool Run();
     void AddObject(Object* _obj) { objarr.push_back(_obj); }
+    void SetVerbose(bool _verbose) { verbose = _verbose; }
 
 private:
     int n_cores;
