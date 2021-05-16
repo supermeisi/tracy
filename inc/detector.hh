@@ -18,7 +18,7 @@ public:
     void Hit(double _x, double _y) { det->Fill(_x, _y); }
     TVector3 GetNormal(TVector3 _r) { return n; }
     void Display();
-    void Draw(TGeoManager &_man, TGeoVolume &_top) {};
+    void Draw(TGeoManager &_man, TGeoVolume &_top);
     void SetBins(double _nx, double _ny) { det->SetBins(_nx, xmin, xmax, _ny, ymin, ymax); }
 
 private:

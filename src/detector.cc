@@ -48,3 +48,10 @@ void Detector::Display()
     TCanvas *c = new TCanvas("c", "c", 500, 500);
     det->Draw("col");
 }
+
+void Detector::Draw(TGeoManager &_man, TGeoVolume &_top)
+{
+    TGeoVolume *box = _man.MakeBox("SPHERE",NULL,1,1,0);
+    box->SetLineColor(kGreen);
+    _top.AddNode(box,0);
+}
