@@ -24,9 +24,11 @@ public:
     bool Run();
     void AddObject(Object* _obj) { objarr.push_back(_obj); }
     void SetVerbose(bool _verbose) { verbose = _verbose; }
+    void SetNVisibleRays(int _n_draw) { n_draw = _n_draw; }
 
 private:
     int n_cores;
+    int n_draw;
     double n_world;
     bool verbose;
     double lambda_min_init;

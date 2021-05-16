@@ -3,6 +3,7 @@
 Trace::Trace()
 {
     n_cores = 1;
+    n_draw = 100;
 
     lambda_min_init = 0.;
 
@@ -41,7 +42,8 @@ int Trace::GetMinimum(const TVector3 &r, const TVector3 &p)
         }
     }
 
-    if(lambda_min == lambda_min_init) return 0;
+    if(lambda_min == lambda_min_init)
+        return -1;
 
     //Find minimum lambda value
     for(int k = 0; k < objarr.size(); k++)
@@ -63,7 +65,6 @@ bool Trace::Processing()
     TVector3 r, p, n;
 
     int n_rays = 10000;
-    int n_draw = 10;
     int modulo = n_rays/n_draw;
 
     std::vector<TGeoTrack*> track;

@@ -36,6 +36,11 @@ int main(int argc, char** argv)
                     std::cout << "Verbose: " << value << std::endl;
                     trace->SetVerbose(stoi(value));
                 }
+                if(key == "draw")
+                {
+                    std::cout << "Maximum shown rays: " << value << std::endl;
+                    trace->SetNVisibleRays(stoi(value));
+                }
             }
         }
     }
