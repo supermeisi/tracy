@@ -41,6 +41,7 @@ private:
     TGeoVolume *top;
     std::vector<Object*> objarr;
     std::vector<Source*> srcarr;
+    std::vector<TPolyLine3D*> track;
 
     int GetMinimum(const TVector3 &, const TVector3 &);
 };

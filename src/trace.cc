@@ -57,8 +57,6 @@ bool Trace::Processing()
 {
     TVector3 r, p, n;
 
-    std::vector<TPolyLine3D*> track;
-
     //Loop over all sources
     for(int i = 0; i < srcarr.size(); i++)
     {
@@ -130,7 +128,6 @@ bool Trace::Processing()
                 {
                     if(verbose) std::cout << "Ray killed..." << std::endl;
                     if(objarr[id]->IsDetector()) objarr[id]->Hit(r.X(), r.Y());
-                    //if(draw) track[track.size()-1]->Draw("same");
                     break;
                 }
             }
@@ -163,6 +160,12 @@ bool Trace::Run()
 
     man->CloseGeometry();
     top->Draw("ogl");
+
+    //Draw rays
+    for(int i = 0; i < track.size(); i++)
+    {
+        track[i]->Draw("same");
+    }
 
     TGLViewer * v = (TGLViewer *)gPad->GetViewer3D();
     v->SetStyle(TGLRnrCtx::kWireFrame);
