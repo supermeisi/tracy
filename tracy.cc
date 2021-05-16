@@ -55,13 +55,17 @@ int main(int argc, char** argv)
     while(!input.eof())
     {
         std::string value;
+
+        double xm, ym, zm;
+
         input >> value;
+
         if(value == "Sphere")
         {
             std::cout << "Adding sphere" << std::endl;
 
             Sphere *sp = new Sphere();
-            double xm, ym, zm, R;
+            double R;
 
             input >> xm >> ym >> zm >> R;
 
@@ -75,7 +79,6 @@ int main(int argc, char** argv)
             std::cout << "Adding detector" << std::endl;
 
             Detector *det = new Detector();
-            double xm, ym, zm;
 
             input >> xm >> ym >> zm;
 
