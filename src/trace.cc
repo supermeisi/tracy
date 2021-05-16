@@ -7,8 +7,6 @@ Trace::Trace()
 
     lambda_min_init = 0.;
 
-    rand = new TRandom2();
-
     physics = new Physics();
 
     n_world = 1.; //World refractive index
@@ -64,84 +62,82 @@ bool Trace::Processing()
 {
     TVector3 r, p, n;
 
-    int n_rays = 100000;
-    int modulo = n_rays/n_draw;
-
     std::vector<TGeoTrack*> track;
 
-    if(verbose)
-        std::cout << "Modulo: " << modulo << std::endl;
-
-    for(int i = 0; i < n_rays; i++)
+    //Loop over all sources
+    for(int i = 0; i < srcarr.size(); i++)
     {
-        bool draw = false;
-
-        if(i%modulo == 0)
-        {
-            draw = true;
-            track.push_back(new TGeoTrack());
-            track[track.size()-1]->SetLineColor(kRed);
-        }
-
-        double r0 = 0.5*sqrt(rand->Rndm());
-        double theta0 = 2*TMath::Pi()*rand->Rndm();
-
-        r.SetX(r0*cos(theta0));
-        r.SetY(r0*sin(theta0));
-        r.SetZ(0.);
-
-        p.SetX(0.);
-        p.SetY(0.);
-        p.SetZ(1.);
-
-        if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
+        int n_rays = srcarr[i]->GetNRays();
+        int modulo = n_rays/n_draw;
 
         if(verbose)
-            std::cout << "Ray ID: " << i << std::endl;
+            std::cout << "Modulo: " << modulo << std::endl;
 
-        //Maximum number of intersections per light ray
-        for(int j = 0; j < 10; j++)
+        //Loop over all rays
+        for(int j = 0; j < n_rays; j++)
         {
-            //Finding minimum line parameter
-            int id = GetMinimum(r, p);
+            bool draw = false;
 
-            //Kill rays that do not hit any object
-            if(id < 0)
+            r = srcarr[i]->GetPosition();
+            p = srcarr[i]->GetDirection();
+
+            if(j%modulo == 0)
             {
-                std::cout << "Ray finished..." << std::endl;
-                break;
-            }
-
-            double lambda_min = objarr[id]->GetLambda(r, p);
-
-            if(verbose)
-            {
-                std::cout << "Object ID: " << id << std::endl;
-                std::cout << "Lambda: " << lambda_min << std::endl;
-            }
-
-            r  = lambda_min*p + r; //Propagate ray to object
-
-            n = objarr[id]->GetNormal(r); //Get normal vector of object
-
-            //Calculate refraction
-            if(p.Dot(n) > 0)
-            {
-                p = physics->Refraction(p, n, n_world, objarr[id]->GetRefIndex());
-            }
-            else
-            {
-                p = physics->Refraction(p, -n, objarr[id]->GetRefIndex(), n_world);
+                draw = true;
+                track.push_back(new TGeoTrack());
+                track[track.size()-1]->SetLineColor(kRed);
             }
 
             if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
 
-            if(objarr[id]->GetKillTrack())
+            if(verbose)
+                std::cout << "Ray ID: " << i << std::endl;
+
+            //Maximum number of intersections per light ray
+            for(int k = 0; k < 10; k++)
             {
-                if(verbose) std::cout << "Ray killed..." << std::endl;
-                if(objarr[id]->IsDetector()) objarr[id]->Hit(r.X(), r.Y());
-                if(draw) track[track.size()-1]->Draw();
-                break;
+                //Finding minimum line parameter
+                int id = GetMinimum(r, p);
+
+                //Kill rays that do not hit any ob1ect
+                if(id < 0)
+                {
+                    if(verbose)
+                        std::cout << "Ray finished..." << std::endl;
+                    break;
+                }
+
+                double lambda_min = objarr[id]->GetLambda(r, p);
+
+                if(verbose)
+                {
+                    std::cout << "Object ID: " << id << std::endl;
+                    std::cout << "Lambda: " << lambda_min << std::endl;
+                }
+
+                r  = lambda_min*p + r; //Propagate ray to object
+
+                n = objarr[id]->GetNormal(r); //Get normal vector of object
+
+                //Calculate refraction
+                if(p.Dot(n) > 0)
+                {
+                    p = physics->Refraction(p, n, n_world, objarr[id]->GetRefIndex());
+                }
+                else
+                {
+                    p = physics->Refraction(p, -n, objarr[id]->GetRefIndex(), n_world);
+                }
+
+                if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
+
+                if(objarr[id]->GetKillTrack())
+                {
+                    if(verbose) std::cout << "Ray killed..." << std::endl;
+                    if(objarr[id]->IsDetector()) objarr[id]->Hit(r.X(), r.Y());
+                    if(draw) track[track.size()-1]->Draw();
+                    break;
+                }
             }
         }
     }

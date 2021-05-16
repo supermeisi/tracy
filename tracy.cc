@@ -60,6 +60,21 @@ int main(int argc, char** argv)
 
         input >> value;
 
+        if(value == "Source")
+        {
+            std::cout << "Adding source" << std::endl;
+
+            Source *src = new Source();
+
+            int nrays;
+
+            input >> xm >> ym >> zm >> nrays;
+
+            src->SetPosition(xm, ym, zm);
+            src->SetNRays(nrays);
+
+            trace->AddSource(src);
+        }
         if(value == "Sphere")
         {
             std::cout << "Adding sphere" << std::endl;
