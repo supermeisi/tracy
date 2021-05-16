@@ -8,6 +8,7 @@
 #include "TRandom2.h"
 #include "TView.h"
 #include "TGeoTrack.h"
+#include "TGLViewer.h"
 
 #include "source.hh"
 #include "sphere.hh"
@@ -36,8 +37,6 @@ private:
     double lambda_min_init;
     std::thread th[100];
     Physics *physics;
-    TCanvas *c1;
-    TView *view;
     TGeoManager *man;
     TGeoVolume *top;
     std::vector<Object*> objarr;

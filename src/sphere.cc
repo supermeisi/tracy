@@ -61,5 +61,7 @@ void Sphere::Draw(TGeoManager &_man, TGeoVolume &_top)
     trans_rot->SetDy(ym);
     trans_rot->SetDz(zm);
 
+    sphere->SetLineColor(kBlue);
+
     _top.AddNode(sphere, 0, trans_rot);
 }

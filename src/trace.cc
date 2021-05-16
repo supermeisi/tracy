@@ -13,11 +13,6 @@ Trace::Trace()
 
     verbose = false;
 
-    c1 = new TCanvas("c1", "c1", 500, 500);
-
-    view = TView::CreateView(1);
-    view->SetRange(-10.,-10.,-1.,300.,300.,300.);
-
     man = new TGeoManager();
     top = gGeoManager->MakeBox("TOP",NULL,10,10,10);
     man->SetTopVolume(top);
@@ -62,7 +57,7 @@ bool Trace::Processing()
 {
     TVector3 r, p, n;
 
-    std::vector<TGeoTrack*> track;
+    std::vector<TPolyLine3D*> track;
 
     //Loop over all sources
     for(int i = 0; i < srcarr.size(); i++)
@@ -84,11 +79,11 @@ bool Trace::Processing()
             if(j%modulo == 0)
             {
                 draw = true;
-                track.push_back(new TGeoTrack());
+                track.push_back(new TPolyLine3D());
                 track[track.size()-1]->SetLineColor(kRed);
             }
 
-            if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
+            if(draw) track[track.size()-1]->SetPoint(0, r.X(), r.Y(), r.Z());
 
             if(verbose)
                 std::cout << "Ray ID: " << i << std::endl;
@@ -129,13 +124,13 @@ bool Trace::Processing()
                     p = physics->Refraction(p, -n, objarr[id]->GetRefIndex(), n_world);
                 }
 
-                if(draw) track[track.size()-1]->AddPoint(r.X(), r.Y(), r.Z(), track[track.size()-1]->GetNpoints());
+                if(draw) track[track.size()-1]->SetPoint(k+1, r.X(), r.Y(), r.Z());
 
                 if(objarr[id]->GetKillTrack())
                 {
                     if(verbose) std::cout << "Ray killed..." << std::endl;
                     if(objarr[id]->IsDetector()) objarr[id]->Hit(r.X(), r.Y());
-                    if(draw) track[track.size()-1]->Draw();
+                    //if(draw) track[track.size()-1]->Draw("same");
                     break;
                 }
             }
@@ -148,8 +143,6 @@ bool Trace::Processing()
 bool Trace::Run()
 {
     std::cout << "Start tracing..." << std::endl;
-
-    top->Draw();
 
     for(int i = 0; i < objarr.size(); i++)
     {
@@ -168,6 +161,13 @@ bool Trace::Run()
 
     std::cout << "End tracing..." << std::endl;
 
+    man->CloseGeometry();
+    top->Draw("ogl");
+
+    TGLViewer * v = (TGLViewer *)gPad->GetViewer3D();
+    v->SetStyle(TGLRnrCtx::kWireFrame);
+
+    //Show detector
     for(int i = 0; i < objarr.size(); i++)
     {
         if(objarr[i]->IsDetector()) objarr[i]->Display();
