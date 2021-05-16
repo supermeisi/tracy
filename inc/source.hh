@@ -20,8 +20,8 @@ public:
     void Hit(double _x, double _y) {}
     void Display() {}
 
-    double GetLambda(TVector3 _r, TVector3 _p) {}
-    TVector3 GetNormal(TVector3 _r) {}
+    double GetLambda(TVector3 _r, TVector3 _p) { return 0.; }
+    TVector3 GetNormal(TVector3 _r) { return TVector3(0., 0., 0.); }
     void Draw(TGeoManager &_man, TGeoVolume &_top) {}
 
 private:
