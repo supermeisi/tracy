@@ -60,7 +60,7 @@ bool Trace::Processing()
     //Loop over all sources
     for(int i = 0; i < srcarr.size(); i++)
     {
-        int n_rays = srcarr[i]->GetNRays()/n_cores;
+        int n_rays = srcarr[i]->GetNRays();
         int modulo = n_rays/n_draw;
 
         if(verbose)

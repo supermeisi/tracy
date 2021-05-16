@@ -110,8 +110,6 @@ int main(int argc, char** argv)
 
     trace->Run();
 
-    delete trace;
-
     app.Run(1);
     
     return 0;
