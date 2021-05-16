@@ -26,9 +26,16 @@ int main(int argc, char** argv)
             std::string value;
             if( std::getline(is_line, value))
             {
-                std::cout << key << " " << value << std::endl;
-                if(key == "threads") trace->SetNCores(stoi(value));
-                if(key == "verbose") trace->SetVerbose(stoi(value));
+                if(key == "threads")
+                {
+                    std::cout << "Number of threads: " << value << std::endl;
+                    trace->SetNCores(stoi(value));
+                }
+                if(key == "verbose")
+                {
+                    std::cout << "Verbose: " << value << std::endl;
+                    trace->SetVerbose(stoi(value));
+                }
             }
         }
     }
