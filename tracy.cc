@@ -70,14 +70,22 @@ int main(int argc, char** argv)
 
             trace->AddObject(sp);
         }
+        if(value == "Detector")
+        {
+            std::cout << "Adding detector" << std::endl;
+
+            Detector *det = new Detector();
+            double xm, ym, zm;
+
+            input >> xm >> ym >> zm;
+
+            det->SetPosition(xm, ym, zm);
+
+            trace->AddObject(det);
+        }
     }
 
     input.close();
-
-    Detector *det = new Detector();
-    det->SetPosition(0., 0., 9.);
-
-    trace->AddObject(det);
 
     trace->Run();
 
