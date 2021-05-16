@@ -12,6 +12,7 @@ int main(int argc, char** argv)
 
     Trace *trace = new Trace();
     
+    //Reading config file
     std::ifstream is_file;
     is_file.open("config.ini");
 
@@ -45,19 +46,37 @@ int main(int argc, char** argv)
         }
     }
 
-    Sphere *sp = new Sphere();
-    sp->SetPosition(0.2, 0., 6.);
-    sp->SetRadius(1.);
+    is_file.close();
 
-    Sphere *sp2 = new Sphere();
-    sp2->SetPosition(0.1, 0., 3.);
-    sp2->SetRadius(1.);
+    //Reading input file
+    std::ifstream input;
+    input.open("example.trc");
+
+    while(!input.eof())
+    {
+        std::string value;
+        input >> value;
+        if(value == "Sphere")
+        {
+            std::cout << "Adding sphere" << std::endl;
+
+            Sphere *sp = new Sphere();
+            double xm, ym, zm, R;
+
+            input >> xm >> ym >> zm >> R;
+
+            sp->SetPosition(xm, ym, zm);
+            sp->SetRadius(R);
+
+            trace->AddObject(sp);
+        }
+    }
+
+    input.close();
 
     Detector *det = new Detector();
     det->SetPosition(0., 0., 9.);
 
-    trace->AddObject(sp);
-    trace->AddObject(sp2);
     trace->AddObject(det);
 
     trace->Run();

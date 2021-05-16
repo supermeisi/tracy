@@ -12,6 +12,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/inc/*.hh)
 
 set(DATA
     config.ini
+    example.trc
   )
 
 foreach(_data ${DATA})
