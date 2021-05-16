@@ -2,7 +2,16 @@
 
 Detector::Detector()
 {
-    det = new TH2F("det", "Detector", 512, -1, 1, 512, -1, 1);
+    xmin = -1;
+    xmax = 1;
+
+    ymin = -1;
+    ymax = 1;
+
+    nbinsx = 100;
+    nbinsy = 100;
+
+    det = new TH2F("det", "Detector", nbinsx, xmin, xmax, nbinsy, ymin, ymax);
 
     detector = true;
     kill = true;

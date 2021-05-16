@@ -64,7 +64,7 @@ bool Trace::Processing()
 {
     TVector3 r, p, n;
 
-    int n_rays = 10000;
+    int n_rays = 100000;
     int modulo = n_rays/n_draw;
 
     std::vector<TGeoTrack*> track;

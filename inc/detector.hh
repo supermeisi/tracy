@@ -19,10 +19,14 @@ public:
     TVector3 GetNormal(TVector3 _r) { return n; }
     void Display();
     void Draw(TGeoManager &_man, TGeoVolume &_top) {};
+    void SetBins(double _nx, double _ny) { det->SetBins(_nx, xmin, xmax, _ny, ymin, ymax); }
 
 private:
     TH2F *det;
     TVector3 n;
+    double xmin, xmax;
+    double ymin, ymax;
+    int nbinsx, nbinsy;
 };
 
 #endif // DETECTOR_HH

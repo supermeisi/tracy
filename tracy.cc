@@ -80,9 +80,12 @@ int main(int argc, char** argv)
 
             Detector *det = new Detector();
 
-            input >> xm >> ym >> zm;
+            int nx, ny;
+
+            input >> xm >> ym >> zm >> nx >> ny;
 
             det->SetPosition(xm, ym, zm);
+            det->SetBins(nx, ny);
 
             trace->AddObject(det);
         }
