@@ -11,6 +11,7 @@ class Object
         Object();
         ~Object();
         void SetPosition(double _xm, double _ym, double _zm) { xm = _xm; ym = _ym; zm = _zm; rm = TVector3(_xm, _ym, _zm);}
+        void SetRotation(double _xa, double _ya, double _za);
         void SetKillTrack(bool _kill) { kill = _kill; }
         void SetRefIndex(double _nref) { nref = _nref; }
         void SetName(TString _name) { name = _name; }
@@ -27,6 +28,7 @@ class Object
     protected:
         double xm, ym, zm;
         TVector3 rm;
+        TVector3 n;
         bool kill;
         double nref;
         TString name;

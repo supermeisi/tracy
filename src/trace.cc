@@ -77,11 +77,18 @@ bool Trace::Processing()
             if(j%modulo == 0)
             {
                 draw = true;
+                mtx.lock();
                 track.push_back(new TPolyLine3D());
                 track[track.size()-1]->SetLineColor(kRed);
+                mtx.unlock();
             }
 
-            if(draw) track[track.size()-1]->SetPoint(0, r.X(), r.Y(), r.Z());
+            if(draw)
+            {
+                mtx.lock();
+                track[track.size()-1]->SetPoint(0, r.X(), r.Y(), r.Z());
+                mtx.unlock();
+            }
 
             if(verbose)
                 std::cout << "Ray ID: " << i << std::endl;
@@ -127,7 +134,12 @@ bool Trace::Processing()
                 if(objarr[id]->GetKillTrack())
                 {
                     if(verbose) std::cout << "Ray killed..." << std::endl;
-                    if(objarr[id]->IsDetector()) objarr[id]->Hit(r.X(), r.Y());
+                    if(objarr[id]->IsDetector())
+                    {
+                        mtx.lock();
+                        objarr[id]->Hit(r.X(), r.Y());
+                        mtx.unlock();
+                    }
                     break;
                 }
             }

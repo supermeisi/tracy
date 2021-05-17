@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <thread>
+#include <mutex>
 
 #include "TH2F.h"
 #include "TRandom2.h"
@@ -42,6 +43,7 @@ private:
     std::vector<Object*> objarr;
     std::vector<Source*> srcarr;
     std::vector<TPolyLine3D*> track;
+    std::mutex mtx;
 
     int GetMinimum(const TVector3 &, const TVector3 &);
 };
