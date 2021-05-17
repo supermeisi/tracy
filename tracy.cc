@@ -56,7 +56,8 @@ int main(int argc, char** argv)
     {
         std::string value;
 
-        double xm, ym, zm;
+        double xm, ym, zm; //Center of origin
+        double xa, ya, za; //Rotation angles
 
         input >> value;
 
@@ -97,9 +98,10 @@ int main(int argc, char** argv)
 
             int nx, ny;
 
-            input >> xm >> ym >> zm >> nx >> ny;
+            input >> xm >> ym >> zm >> xa >> ya >> za >> nx >> ny;
 
             det->SetPosition(xm, ym, zm);
+            det->SetRotation(xa, ya, za);
             det->SetBins(nx, ny);
 
             trace->AddObject(det);

@@ -23,7 +23,6 @@ public:
 
 private:
     TH2F *det;
-    TVector3 n;
     double xmin, xmax;
     double ymin, ymax;
     int nbinsx, nbinsy;

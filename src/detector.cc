@@ -51,7 +51,19 @@ void Detector::Display()
 
 void Detector::Draw(TGeoManager &_man, TGeoVolume &_top)
 {
-    TGeoVolume *box = _man.MakeBox("SPHERE",NULL,1,1,0);
+    TGeoVolume *box = _man.MakeBox("BOX",NULL,1,1,0);
+
     box->SetLineColor(kGreen);
-    _top.AddNode(box,0);
+
+    TGeoHMatrix *trans_rot = new TGeoHMatrix("TRANSROT");
+
+    trans_rot->RotateX(xa);
+    trans_rot->RotateY(ya);
+    trans_rot->RotateZ(za);
+
+    trans_rot->SetDx(xm);
+    trans_rot->SetDy(ym);
+    trans_rot->SetDz(zm);
+
+    _top.AddNode(box,0, trans_rot);
 }

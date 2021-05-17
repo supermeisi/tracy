@@ -27,6 +27,7 @@ class Object
 
     protected:
         double xm, ym, zm;
+        double xa, ya, za;
         TVector3 rm;
         TVector3 n;
         bool kill;
