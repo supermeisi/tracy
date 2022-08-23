@@ -10,6 +10,7 @@
 #include "TView.h"
 #include "TGeoTrack.h"
 #include "TGLViewer.h"
+#include "TPolyLine3D.h"
 
 #include "source.hh"
 #include "sphere.hh"
