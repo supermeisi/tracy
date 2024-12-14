@@ -22,12 +22,12 @@ class Trace
 {
 public:
     Trace();
-    
+
     void SetNCores(int _n_cores) { n_cores = _n_cores; }
     bool Processing();
     bool Run();
-    void AddSource(Source* _src) { srcarr.push_back(_src); }
-    void AddObject(Object* _obj) { objarr.push_back(_obj); }
+    void AddSource(Source *_src) { srcarr.push_back(_src); }
+    void AddObject(Object *_obj) { objarr.push_back(_obj); }
     void SetVerbose(bool _verbose) { verbose = _verbose; }
     void SetNVisibleRays(int _n_draw) { n_draw = _n_draw; }
 
@@ -41,12 +41,12 @@ private:
     Physics *physics;
     TGeoManager *man;
     TGeoVolume *top;
-    std::vector<Object*> objarr;
-    std::vector<Source*> srcarr;
-    std::vector<TPolyLine3D*> track;
+    std::vector<Object *> objarr;
+    std::vector<Source *> srcarr;
+    std::vector<TPolyLine3D *> track;
     std::mutex mtx;
 
     int GetMinimum(const TVector3 &, const TVector3 &);
 };
 
-#endif //TRACE_HH
+#endif // TRACE_HH

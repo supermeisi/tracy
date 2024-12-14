@@ -18,11 +18,17 @@ public:
     double GetLambda(TVector3 _r, TVector3 _p);
     TVector3 GetNormal(TVector3 _r);
     void Draw();
-    void SetPosition(double _xm, double _ym, double _zm) { xm = _xm; ym = _ym; zm = _zm; rm = TVector3(_xm, _ym, _zm);}
+    void SetPosition(double _xm, double _ym, double _zm)
+    {
+        xm = _xm;
+        ym = _ym;
+        zm = _zm;
+        rm = TVector3(_xm, _ym, _zm);
+    }
     void Draw(TGeoManager &_man, TGeoVolume &_top);
 
 private:
     double R;
 };
 
-#endif //SPHERE_HH
+#endif // SPHERE_HH

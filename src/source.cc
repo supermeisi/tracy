@@ -9,17 +9,18 @@ Source::Source()
 }
 
 Source::~Source()
-{}
+{
+}
 
 TVector3 Source::GetPosition()
 {
-    double r0 = 0.5*sqrt(rand->Rndm());
-    double theta0 = 2*TMath::Pi()*rand->Rndm();
+    double r0 = 0.5 * sqrt(rand->Rndm());
+    double theta0 = 2 * TMath::Pi() * rand->Rndm();
 
     TVector3 r;
 
-    r.SetX(xm + r0*cos(theta0));
-    r.SetY(ym + r0*sin(theta0));
+    r.SetX(xm + r0 * cos(theta0));
+    r.SetY(ym + r0 * sin(theta0));
     r.SetZ(zm);
 
     return r;

@@ -37,7 +37,7 @@ double Detector::GetLambda(TVector3 _r, TVector3 _p)
     double py = _p.Y();
     double pz = _p.Z();
 
-    double lambda = (nx*xm+nz*zm-nz*z+ny*ym-ny*y-nx*x)/(nz*pz+ny*py+nx*px);
+    double lambda = (nx * xm + nz * zm - nz * z + ny * ym - ny * y - nx * x) / (nz * pz + ny * py + nx * px);
 
     return lambda;
 }
@@ -51,7 +51,7 @@ void Detector::Display()
 
 void Detector::Draw(TGeoManager &_man, TGeoVolume &_top)
 {
-    TGeoVolume *box = _man.MakeBox("BOX",NULL,1,1,0);
+    TGeoVolume *box = _man.MakeBox("BOX", NULL, 1, 1, 0);
 
     box->SetLineColor(kGreen);
 
@@ -65,5 +65,5 @@ void Detector::Draw(TGeoManager &_man, TGeoVolume &_top)
     trans_rot->SetDy(ym);
     trans_rot->SetDz(zm);
 
-    _top.AddNode(box,0, trans_rot);
+    _top.AddNode(box, 0, trans_rot);
 }

@@ -10,7 +10,8 @@ Object::Object()
 }
 
 Object::~Object()
-{}
+{
+}
 
 void Object::SetRotation(double _xa, double _ya, double _za)
 {
@@ -18,7 +19,7 @@ void Object::SetRotation(double _xa, double _ya, double _za)
     ya = _ya;
     za = _za;
 
-    n.RotateX(_xa*TMath::Pi()/180.);
-    n.RotateY(_ya*TMath::Pi()/180.);
-    n.RotateZ(_za*TMath::Pi()/180.);
+    n.RotateX(_xa * TMath::Pi() / 180.);
+    n.RotateY(_ya * TMath::Pi() / 180.);
+    n.RotateZ(_za * TMath::Pi() / 180.);
 }
