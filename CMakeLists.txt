@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
+
 project(tracy)
 
 find_package(ROOT REQUIRED)
@@ -12,11 +13,11 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/inc/*.hh)
 
 set(DATA
     config.ini
-    example.trc
-  )
+    example.xml
+)
 
 foreach(_data ${DATA})
-    configure_file (
+    configure_file(
         ${PROJECT_SOURCE_DIR}/${_data}
         ${PROJECT_BINARY_DIR}/${_data}
         COPYONLY
