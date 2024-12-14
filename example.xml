@@ -4,9 +4,9 @@
             <pos>
                 <x>0.0</x>
                 <y>0.0</y>
-                <z>0.0</z>
+                <z>-10.0</z>
             </pos>
-            <rays>100</rays>
+            <rays>1000</rays>
         </source>
         <sphere name="sphere1">
             <pos>
@@ -16,11 +16,19 @@
             </pos>
             <radius>1</radius>
         </sphere>
+        <sphere name="sphere2">
+            <pos>
+                <x>0.0</x>
+                <y>0.0</y>
+                <z>-5.0</z>
+            </pos>
+            <radius>2</radius>
+        </sphere>
         <detector name="detector1">
             <pos>
                 <x>0.0</x>
                 <y>0.0</y>
-                <z>9.0</z>
+                <z>2.0</z>
             </pos>
             <rot>
                 <x>30.0</x>
@@ -28,9 +36,8 @@
                 <z>0.0</z>
             </rot>
             <bins>
-                <bin_x>200</bin_x>
-                <bin_y>200</bin_y>
-                <radius>1</radius>
+                <x>200</x>
+                <y>200</y>
             </bins>
         </detector>
     </objects>

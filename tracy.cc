@@ -76,7 +76,7 @@ int main(int argc, char **argv)
 
             for (tinyxml2::XMLElement *objects = etnries->FirstChildElement(); objects != nullptr; objects = objects->NextSiblingElement())
             {
-                const char *type = etnries->Name();
+                const char *type = objects->Name();
 
                 if (type)
                 {
@@ -89,71 +89,73 @@ int main(int argc, char **argv)
                 {
                     std::cout << "  Element 'name': " << value << std::endl;
                 }
+
+                if (strcmp(type, "source") == 0)
+                {
+                    std::cout << "Adding source" << std::endl;
+
+                    Source *src = new Source();
+
+                    double xm = atof(objects->FirstChildElement("pos")->FirstChildElement("x")->GetText());
+                    double ym = atof(objects->FirstChildElement("pos")->FirstChildElement("y")->GetText());
+                    double zm = atof(objects->FirstChildElement("pos")->FirstChildElement("z")->GetText());
+
+                    int nrays = atof(objects->FirstChildElement("rays")->GetText());
+
+                    std::cout << xm << " " << ym << " " << zm << std::endl;
+
+                    src->SetPosition(xm, ym, zm);
+                    src->SetNRays(nrays);
+
+                    trace->AddSource(src);
+                }
+                else if (strcmp(type, "sphere") == 0)
+                {
+                    std::cout << "Adding sphere" << std::endl;
+
+                    Sphere *sp = new Sphere();
+
+                    double xm = atof(objects->FirstChildElement("pos")->FirstChildElement("x")->GetText());
+                    double ym = atof(objects->FirstChildElement("pos")->FirstChildElement("y")->GetText());
+                    double zm = atof(objects->FirstChildElement("pos")->FirstChildElement("z")->GetText());
+
+                    double R = atof(objects->FirstChildElement("radius")->GetText());
+
+                    std::cout << xm << " " << ym << " " << zm << " " << R << std::endl;
+
+                    sp->SetPosition(xm, ym, zm);
+                    sp->SetRadius(R);
+
+                    trace->AddObject(sp);
+                }
+                else if (strcmp(type, "detector") == 0)
+                {
+                    std::cout << "Adding detector" << std::endl;
+
+                    Detector *det = new Detector();
+
+                    double xm = atof(objects->FirstChildElement("pos")->FirstChildElement("x")->GetText());
+                    double ym = atof(objects->FirstChildElement("pos")->FirstChildElement("y")->GetText());
+                    double zm = atof(objects->FirstChildElement("pos")->FirstChildElement("z")->GetText());
+
+                    double xa = atof(objects->FirstChildElement("rot")->FirstChildElement("x")->GetText());
+                    double ya = atof(objects->FirstChildElement("rot")->FirstChildElement("y")->GetText());
+                    double za = atof(objects->FirstChildElement("rot")->FirstChildElement("z")->GetText());
+
+                    int nx = atof(objects->FirstChildElement("bins")->FirstChildElement("x")->GetText());
+                    int ny = atof(objects->FirstChildElement("bins")->FirstChildElement("y")->GetText());
+
+                    std::cout << xm << " " << ym << " " << zm << " " << xa << " " << ya << " " << nx << " " << ny << std::endl;
+
+                    det->SetPosition(xm, ym, zm);
+                    det->SetRotation(xa, ya, za);
+                    det->SetBins(nx, ny);
+
+                    trace->AddObject(det);
+                }
             }
         }
     }
-
-    // Reading input file
-    std::ifstream input;
-    input.open("example.trc");
-
-    while (!input.eof())
-    {
-        std::string value;
-
-        double xm, ym, zm; // Center of origin
-        double xa, ya, za; // Rotation angles
-
-        input >> value;
-
-        if (value == "Source")
-        {
-            std::cout << "Adding source" << std::endl;
-
-            Source *src = new Source();
-
-            int nrays;
-
-            input >> xm >> ym >> zm >> nrays;
-
-            src->SetPosition(xm, ym, zm);
-            src->SetNRays(nrays);
-
-            trace->AddSource(src);
-        }
-        if (value == "Sphere")
-        {
-            std::cout << "Adding sphere" << std::endl;
-
-            Sphere *sp = new Sphere();
-            double R;
-
-            input >> xm >> ym >> zm >> R;
-
-            sp->SetPosition(xm, ym, zm);
-            sp->SetRadius(R);
-
-            trace->AddObject(sp);
-        }
-        if (value == "Detector")
-        {
-            std::cout << "Adding detector" << std::endl;
-
-            Detector *det = new Detector();
-
-            int nx, ny;
-
-            input >> xm >> ym >> zm >> xa >> ya >> za >> nx >> ny;
-
-            det->SetPosition(xm, ym, zm);
-            det->SetRotation(xa, ya, za);
-            det->SetBins(nx, ny);
-
-            trace->AddObject(det);
-        }
-    }
-
-    input.close();
 
     trace->Run();
 

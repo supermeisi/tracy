@@ -18,9 +18,9 @@ TVector3 Source::GetPosition()
 
     TVector3 r;
 
-    r.SetX(r0*cos(theta0));
-    r.SetY(r0*sin(theta0));
-    r.SetZ(0.);
+    r.SetX(xm + r0*cos(theta0));
+    r.SetY(ym + r0*sin(theta0));
+    r.SetZ(zm);
 
     return r;
 }
